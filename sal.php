@@ -15,22 +15,27 @@
     <input type="text" name="money">
     <input type="submit">
     </form>
+
+    <table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Salary</th>
+    </tr>
     <?php
-        //if (isset($_POST['Register'])) {
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty(htmlspecialchars($_POST["personname"])) && !empty(htmlspecialchars($_POST["money"]))) {
             $pers = htmlspecialchars($_POST["personname"]);
-            //$namearray = array();
-            //array_push($namearray, $pers);
             $salar = htmlspecialchars($_POST["money"]);
-            //$salarray = array();
-            //array_push($salarray, $pers);
-            //for ($x = 0; $x <= 10; $x++) {
+            echo "<tr>";
+            echo "<td>";
             echo $pers;
-            echo ":  ";
+            echo "</td>";
+            echo "<td>";
             echo $salar;
-            echo "<br>";
-           // }
-        //}
+            echo "</td>";
+            echo "</tr>";
+        }
     ?>
+    </table>
     
 </body>
 </html>
