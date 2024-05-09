@@ -28,12 +28,43 @@
             if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty(htmlspecialchars($_POST["personname"])) && !empty(htmlspecialchars($_POST["money"]))) {
                 $pers = htmlspecialchars($_POST["personname"]);
                 $salar = htmlspecialchars($_POST["money"]);
-                $query = "INSERT INTO salaries (name, dollars) VALUES ($pers,$salar);";
+                $query = "INSERT INTO salaries (name, dollars) VALUES (? , ?);";
+                $stmt = $pdo->prepare($query);
+                $stmt->execute([$pers,$salar]);
+
+                $pdo = null;
+                $stmt = null;
+
             }
         ?>
-        <table border = "1">
-            <tr> <th>Name</th> <th> Salary </th> </tr>
+        
+        <table border="1">
+        <tr>
+        <th>Name</th>
+        <th>Salary</th>
+        </tr>
+        <?php
 
+            $queue = "SELECT * FROM salaries;";
+            $statement = $pdo->prepare($queue);
+            $statement->execute();
+
+            $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            if (empty($results)) {
+
+            }
+            else {
+                foreach ($results as $row) {
+                    echo "<tr><th>";
+                    echo htmlspecialchars($row["name"]);
+                    echo "</th><th>";
+                    echo htmlspecialchars($row["dollars"]);
+                    echo "</th></tr>";
+                }
+            }
+        ?>
         </table>
+
     </body>
 </html>
